@@ -458,6 +458,7 @@
       await global.NTNotifications.refreshBadge();
     }
     document.getElementById('wireTransferForm')?.reset();
+    global.fillWireBeneficiaryFromSelection?.();
     global.toggleWireFields?.();
     global.updateWireTransferPreview?.();
     await refreshAfterMutation();
@@ -487,6 +488,7 @@
             } else if (res.success) {
               NTUI.success(`Wire Transmitted: Funds cleared for ${ben.displayName}.`);
               document.getElementById('wireTransferForm')?.reset();
+              global.fillWireBeneficiaryFromSelection?.();
               global.updateWireTransferPreview?.();
               await refreshAfterMutation();
             } else NTUI.error(res.message);
@@ -505,6 +507,7 @@
           } else if (res.success) {
             NTUI.success(`Wire Transmitted: Funds cleared for ${ben.displayName}.`);
             document.getElementById('wireTransferForm')?.reset();
+            global.fillWireBeneficiaryFromSelection?.();
             global.updateWireTransferPreview?.();
             await refreshAfterMutation();
           } else NTUI.error(res.message);
