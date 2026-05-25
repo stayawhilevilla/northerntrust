@@ -216,13 +216,63 @@
     if (b) b.classList.remove('visible');
   }
 
+  const BALANCE_MASK_TEXT = '****';
+
+  function isBalancesVisible() {
+    return sessionStorage.getItem('nt_balances_visible') === 'true';
+  }
+
+  function setBalancesVisible(visible) {
+    sessionStorage.setItem('nt_balances_visible', visible ? 'true' : 'false');
+  }
+
+  function applySensitiveBalances() {
+    const visible = isBalancesVisible();
+    document.querySelectorAll('.nt-sensitive-balance').forEach(el => {
+      const real = el.getAttribute('data-real-value');
+      if (real) {
+        el.textContent = visible ? real : BALANCE_MASK_TEXT;
+        el.classList.toggle('stat-value--masked', !visible);
+      }
+    });
+    document.querySelectorAll('[data-balance-toggle]').forEach(btn => {
+      btn.classList.toggle('is-visible', visible);
+      btn.setAttribute('aria-label', visible ? 'Hide balance' : 'Show balance');
+      btn.setAttribute('title', visible ? 'Hide balance' : 'Show balance');
+    });
+  }
+
+  function setSensitiveBalance(el, formattedValue) {
+    if (!el) return;
+    el.setAttribute('data-real-value', formattedValue);
+    el.classList.add('nt-sensitive-balance');
+    el.textContent = isBalancesVisible() ? formattedValue : BALANCE_MASK_TEXT;
+    el.classList.toggle('stat-value--masked', !isBalancesVisible());
+  }
+
+  function initBalanceVisibilityToggles() {
+    document.querySelectorAll('[data-balance-toggle]').forEach(btn => {
+      if (btn._ntBalanceToggleBound) return;
+      btn._ntBalanceToggleBound = true;
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        setBalancesVisible(!isBalancesVisible());
+        applySensitiveBalances();
+      });
+    });
+    applySensitiveBalances();
+  }
+
   function hydrateOverview() {
     const o = state.overview;
     if (!o) return;
-    const stats = document.querySelectorAll('.stat-card .stat-value');
-    if (stats[0] && o.summary) stats[0].textContent = fmtMoney(o.summary.totalPortfolioBalance);
-    if (stats[1] && o.summary) stats[1].textContent = fmtMoney(o.summary.availableBalance);
-    if (stats[2] && o.summary) stats[2].textContent = fmtMoney(o.summary.pendingSettlements);
+    const portfolioEl = document.getElementById('statTotalPortfolio');
+    const availableEl = document.getElementById('statAvailableBalance');
+    if (portfolioEl && o.summary) setSensitiveBalance(portfolioEl, fmtMoney(o.summary.totalPortfolioBalance));
+    if (availableEl && o.summary) setSensitiveBalance(availableEl, fmtMoney(o.summary.availableBalance));
+    const pendingEl = document.querySelector('.stat-card:nth-child(3) .stat-value');
+    if (pendingEl && o.summary) pendingEl.textContent = fmtMoney(o.summary.pendingSettlements);
     const mom = document.querySelector('.badge-positive');
     if (mom && o.summary) mom.textContent = '+' + o.summary.monthOverMonthChangePct + '%';
 
@@ -273,6 +323,8 @@
         typeof global.switchActiveSubAccount === 'function') {
       global.switchActiveSubAccount(global._activeSubAccount || 'checking', false, { force: true });
     }
+
+    initBalanceVisibilityToggles();
   }
 
   async function loadStatementsAll() {
@@ -368,6 +420,7 @@
 
   global.NTApi = {
     state, loadDashboard, hydrateOverview, hydrateHeader, reloadView, refreshBeneficiaries, refreshNotifications,
+    initBalanceVisibilityToggles, applySensitiveBalances, isBalancesVisible,
     apiGet, apiPost, apiPatch, ACCOUNT, API_BASE,
     postInternalTransfer: body => apiPost('/transfers/internal', body),
     postAchTransfer: body => apiPost('/transfers/ach', body),

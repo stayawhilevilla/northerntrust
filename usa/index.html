@@ -1135,6 +1135,46 @@
         letter-spacing: 1px;
       }
 
+      .stat-label-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .balance-visibility-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        background: #fff;
+        color: #64748b;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: color 0.2s, border-color 0.2s, background 0.2s;
+      }
+      .balance-visibility-toggle:hover {
+        color: var(--primary);
+        border-color: #cbd5e1;
+        background: #f8fafc;
+      }
+      .balance-visibility-toggle .icon-eye-off {
+        display: none;
+      }
+      .balance-visibility-toggle.is-visible .icon-eye {
+        display: none;
+      }
+      .balance-visibility-toggle.is-visible .icon-eye-off {
+        display: block;
+      }
+      .stat-value.stat-value--masked {
+        letter-spacing: 0.12em;
+        color: #94a3b8;
+      }
+
       .stat-value {
         font-size: 28px;
         font-weight: 700;
@@ -4772,16 +4812,28 @@
             <p id="balancesAsOf" class="balances-as-of">Balances as of —</p>
             <div class="stats-container">
               <div class="stat-card">
-                <div class="stat-label">Total Portfolio Balance</div>
-                <div class="stat-value">$73,425.68</div>
+                <div class="stat-label-row">
+                  <span class="stat-label">Total Portfolio Balance</span>
+                  <button type="button" class="balance-visibility-toggle" data-balance-toggle aria-label="Show balance" title="Show balance">
+                    <svg class="icon-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="icon-eye-off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                  </button>
+                </div>
+                <div class="stat-value nt-sensitive-balance stat-value--masked" id="statTotalPortfolio" data-real-value="$73,425.68">****</div>
                 <div class="stat-subtext">
                   <span class="badge-positive">+2.4%</span>
                   <span>vs last month</span>
                 </div>
               </div>
               <div class="stat-card">
-                <div class="stat-label">Available Balance</div>
-                <div class="stat-value">$73,403.18</div>
+                <div class="stat-label-row">
+                  <span class="stat-label">Available Balance</span>
+                  <button type="button" class="balance-visibility-toggle" data-balance-toggle aria-label="Show balance" title="Show balance">
+                    <svg class="icon-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="icon-eye-off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                  </button>
+                </div>
+                <div class="stat-value nt-sensitive-balance stat-value--masked" id="statAvailableBalance" data-real-value="$73,403.18">****</div>
                 <div class="stat-subtext">
                   <span style="color: #64748b; font-weight: 500;">99.9% immediately liquid</span>
                 </div>
