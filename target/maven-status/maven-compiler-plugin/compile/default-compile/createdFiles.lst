@@ -1,5 +1,6 @@
 project\northerntrust\app\repository\PaymentRailRepository.class
 project\northerntrust\app\repository\OtpCodeRepository.class
+project\northerntrust\app\entity\enums\NotificationType.class
 project\northerntrust\app\repository\TransferStatusLogRepository.class
 project\northerntrust\app\repository\TransferDetailRepository.class
 project\northerntrust\app\controller\HomeController.class
@@ -32,6 +33,7 @@ project\northerntrust\app\entity\enums\TransferLogStatus.class
 project\northerntrust\app\entity\Transfer.class
 project\northerntrust\app\entity\AuditLog.class
 project\northerntrust\app\entity\enums\TransferDirection.class
+project\northerntrust\app\dto\OtpVerifyRequest.class
 project\northerntrust\app\entity\enums\FeeChargedTo.class
 project\northerntrust\app\repository\LedgerEntryRepository.class
 project\northerntrust\app\entity\PasswordResetToken.class
@@ -48,10 +50,13 @@ project\northerntrust\app\controller\DashboardTransferController.class
 project\northerntrust\app\entity\User.class
 project\northerntrust\app\controller\KycController.class
 project\northerntrust\app\entity\enums\TransferStatus.class
+project\northerntrust\app\service\WireComplianceService$WireHoldDecision.class
+project\northerntrust\app\service\WireComplianceService.class
 project\northerntrust\app\controller\NotificationController.class
 project\northerntrust\app\entity\enums\TransferType.class
 project\northerntrust\app\dto\BeneficiaryRequest.class
 project\northerntrust\app\entity\TransferStatusLog.class
+project\northerntrust\app\controller\DashboardController.class
 project\northerntrust\app\entity\enums\DisplayTransferStatus.class
 project\northerntrust\app\repository\BeneficiaryRepository.class
 project\northerntrust\app\dto\LoginRequest.class
@@ -81,6 +86,7 @@ project\northerntrust\app\entity\enums\AccountType.class
 project\northerntrust\app\exception\GlobalExceptionHandler.class
 project\northerntrust\app\service\OtpService.class
 project\northerntrust\app\config\WebConfig.class
+project\northerntrust\app\service\NotificationService.class
 project\northerntrust\app\entity\TransferDetail.class
 project\northerntrust\app\service\NotificationService$1.class
 project\northerntrust\app\dto\LedgerHistoryResponse.class
