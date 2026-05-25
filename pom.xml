@@ -69,6 +69,25 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<!-- Package frontend so /usa/** works in production (JAR), not only from user.dir -->
+			<resource>
+				<directory>usa</directory>
+				<targetPath>static/usa</targetPath>
+				<excludes>
+					<exclude>node_modules/**</exclude>
+					<exclude>dist/**</exclude>
+					<exclude>src/**</exclude>
+					<exclude>package.json</exclude>
+					<exclude>package-lock.json</exclude>
+					<exclude>update_css.cjs</exclude>
+					<exclude>.gitignore</exclude>
+				</excludes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

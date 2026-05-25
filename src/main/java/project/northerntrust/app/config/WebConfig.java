@@ -18,8 +18,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String usaRoot = "file:" + System.getProperty("user.dir").replace("\\", "/") + "/usa/";
+        // classpath:/static/usa/ is populated at build time from project /usa (see pom.xml)
         registry.addResourceHandler("/usa/**")
-                .addResourceLocations(usaRoot, "classpath:/static/usa/");
+                .addResourceLocations("classpath:/static/usa/");
     }
 }
