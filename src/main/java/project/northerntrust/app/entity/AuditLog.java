@@ -14,7 +14,7 @@ public class AuditLog {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(columnDefinition = "BINARY(16)")
+    @Column(columnDefinition = "uuid")
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,13 +27,13 @@ public class AuditLog {
     @Column(name = "entity_type", length = 50)
     private String entityType;
 
-    @Column(name = "entity_id", columnDefinition = "BINARY(16)")
+    @Column(name = "entity_id", columnDefinition = "uuid")
     private UUID entityId;
 
     @Column(name = "ip_address", length = 45)
     private String ipAddress;
 
-    @Column(columnDefinition = "JSON")
+    @Column(columnDefinition = "TEXT")
     private String details;
 
     @CreationTimestamp
