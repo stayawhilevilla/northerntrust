@@ -70,6 +70,7 @@ project\northerntrust\app\repository\LedgerEntryRepository.class
 project\northerntrust\app\entity\PasswordResetToken.class
 project\northerntrust\app\controller\AuthController.class
 project\northerntrust\app\entity\enums\AccountStatus.class
+project\northerntrust\app\service\BeneficiaryService$1.class
 project\northerntrust\app\dto\MessageResponse.class
 project\northerntrust\app\repository\UserRepository.class
 project\northerntrust\app\entity\enums\BeneficiaryType.class

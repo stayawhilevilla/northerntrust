@@ -47,7 +47,11 @@ public class DashboardController {
     public ResponseEntity<MessageResponse> createBeneficiary(
             @RequestParam(defaultValue = "8902410001") String accountNumber,
             @RequestBody Map<String, Object> body) {
-        return ResponseEntity.ok(beneficiaryService.createBeneficiaryV1(accountNumber, body));
+        MessageResponse response = beneficiaryService.createBeneficiaryV1(accountNumber, body);
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        }
+        return ResponseEntity.badRequest().body(response);
     }
 
     @PatchMapping("/beneficiaries/{code}/limits")

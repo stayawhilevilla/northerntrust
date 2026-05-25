@@ -56,6 +56,7 @@ C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\nor
 C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\service\AccountService.java
 C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\service\AmlRiskService.java
 C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\entity\enums\OtpPurpose.java
+C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\repository\AuditLogRepository.java
 C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\entity\RiskEvent.java
 C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\entity\Beneficiary.java
 C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\service\DashboardDataSeeder.java
@@ -79,6 +80,7 @@ C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\nor
 C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\controller\DashboardController.java
 C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\entity\Session.java
 C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\entity\Notification.java
+C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\service\AuditLogService.java
 C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\controller\AuthController.java
 C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\entity\enums\ProductKey.java
 C:\Users\elon_\eclipse-workspace\project.northerntrust\src\main\java\project\northerntrust\app\entity\TransferFee.java

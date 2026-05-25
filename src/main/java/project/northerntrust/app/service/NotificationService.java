@@ -93,17 +93,85 @@ public class NotificationService {
         if (user == null) return;
 
         String amt = amount != null ? amount.toPlainString() : "0";
+        Map<String, String> meta = transferMeta(reference, amt, counterparty, transferKind, "SETTLED");
+
+        create(user, NotificationType.TRANSFER, NotificationSeverity.INFO,
+                transferKind + " completed",
+                "Transfer of $" + amt + (counterparty != null && !counterparty.isEmpty()
+                        ? " to " + counterparty : "") + " has been processed.",
+                reference, meta);
+    }
+
+    public void recordTransferFailed(String accountNumber, String reference, BigDecimal amount,
+                                     String counterparty, String reason, String transferKind) {
+        User user = userRepository.findByAccountNumber(accountNumber).orElse(null);
+        if (user == null) return;
+
+        String amt = amount != null ? amount.toPlainString() : "0";
+        Map<String, String> meta = transferMeta(reference, amt, counterparty, transferKind, "FAILED");
+        meta.put("reason", reason != null ? reason : "Transfer could not be completed");
+
+        create(user, NotificationType.TRANSFER, NotificationSeverity.WARNING,
+                transferKind + " not completed",
+                (reason != null ? reason : "Transfer failed") + (reference != null && !reference.isEmpty()
+                        ? " (Ref: " + reference + ")" : ""),
+                reference, meta);
+    }
+
+    public void recordBeneficiaryAdded(String accountNumber, String beneficiaryCode, String displayName,
+                                       String beneficiaryType, String status) {
+        User user = userRepository.findByAccountNumber(accountNumber).orElse(null);
+        if (user == null) return;
+
+        Map<String, String> meta = new LinkedHashMap<>();
+        meta.put("beneficiaryCode", beneficiaryCode != null ? beneficiaryCode : "");
+        meta.put("displayName", displayName != null ? displayName : "");
+        meta.put("beneficiaryType", beneficiaryType != null ? beneficiaryType : "");
+        meta.put("status", status != null ? status : "ACTIVE");
+
+        NotificationSeverity severity = "PENDING_REVIEW".equalsIgnoreCase(status)
+                ? NotificationSeverity.WARNING : NotificationSeverity.INFO;
+        String body = displayName + " was registered as a pre-approved payee";
+        if ("PENDING_REVIEW".equalsIgnoreCase(status)) {
+            body += " and is pending compliance review before first transfer.";
+        } else {
+            body += " and is available for outbound transfers.";
+        }
+
+        create(user, NotificationType.BENEFICIARY, severity,
+                "Beneficiary added",
+                body,
+                beneficiaryCode, meta);
+    }
+
+    public void recordBeneficiaryUpdated(String accountNumber, String beneficiaryCode, String displayName,
+                                         String updateKind, String detail) {
+        User user = userRepository.findByAccountNumber(accountNumber).orElse(null);
+        if (user == null) return;
+
+        Map<String, String> meta = new LinkedHashMap<>();
+        meta.put("beneficiaryCode", beneficiaryCode != null ? beneficiaryCode : "");
+        meta.put("displayName", displayName != null ? displayName : "");
+        meta.put("updateKind", updateKind != null ? updateKind : "UPDATE");
+        if (detail != null) {
+            meta.put("detail", detail);
+        }
+
+        create(user, NotificationType.BENEFICIARY, NotificationSeverity.INFO,
+                "Beneficiary updated",
+                (displayName != null ? displayName + ": " : "") + (detail != null ? detail : updateKind),
+                beneficiaryCode, meta);
+    }
+
+    private static Map<String, String> transferMeta(String reference, String amt, String counterparty,
+                                                    String transferKind, String status) {
         Map<String, String> meta = new LinkedHashMap<>();
         meta.put("reference", reference != null ? reference : "");
         meta.put("amount", amt);
         meta.put("counterparty", counterparty != null ? counterparty : "");
         meta.put("transferKind", transferKind != null ? transferKind : "Transfer");
-
-        create(user, NotificationType.TRANSACTION, NotificationSeverity.INFO,
-                transferKind + " posted",
-                "Transfer of $" + amt + (counterparty != null && !counterparty.isEmpty()
-                        ? " to " + counterparty : "") + " has settled.",
-                reference, meta);
+        meta.put("status", status);
+        return meta;
     }
 
     public void recordSecurityAlert(String accountNumber, String title, String message) {

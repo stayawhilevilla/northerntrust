@@ -268,12 +268,26 @@ public class DashboardService {
         return dto;
     }
 
+    private static String maskAccountNumber(String accountNumber) {
+        if (accountNumber == null || accountNumber.isEmpty()) {
+            return "";
+        }
+        if (accountNumber.contains("•")) {
+            return accountNumber;
+        }
+        String digits = accountNumber.replaceAll("\\s+", "");
+        if (digits.length() <= 4) {
+            return digits;
+        }
+        return "•••• •••• •••• " + digits.substring(digits.length() - 4);
+    }
+
     private Map<String, Object> buildDestinationDetails(Beneficiary b) {
         Map<String, Object> d = new LinkedHashMap<>();
         switch (b.getBeneficiaryType()) {
             case BANK:
                 d.put("bankName", b.getBankName());
-                d.put("accountNumber", b.getAccountNumber());
+                d.put("accountNumber", maskAccountNumber(b.getAccountNumber()));
                 d.put("routingOrSwift", b.getRoutingOrSwift());
                 d.put("country", b.getCountry());
                 break;

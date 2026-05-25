@@ -54,6 +54,9 @@ public class TransferService {
     @Autowired
     private WireComplianceService wireComplianceService;
 
+    @Autowired
+    private AuditLogService auditLogService;
+
     @Transactional
     public MessageResponse performInternalTransfer(TransferRequest request) {
         // ... (existing implementation) ...
@@ -155,12 +158,7 @@ public class TransferService {
         transferRepository.save(transfer);
         logStatus(transfer, TransferStatus.SUCCESS, "Transfer complete. Ledger entries written.");
 
-        notificationService.recordTransfer(
-                sender.getUser().getAccountNumber(),
-                transfer.getReference(),
-                request.getAmount(),
-                receiver.getDisplayName(),
-                "Internal transfer");
+        recordTransferSuccess(sender.getUser(), transfer, receiver.getDisplayName(), "Internal transfer");
 
         return new MessageResponse(true, "Internal transfer successful. Reference: " + transfer.getReference());
     }
@@ -302,11 +300,7 @@ public class TransferService {
         transferRepository.save(transfer);
         logStatus(transfer, TransferStatus.SENT_TO_RAIL, "Funds routed to " + rail.getRailType() + " network. Processing time: " + rail.getProcessingTime());
 
-        notificationService.recordTransfer(
-                sender.getUser().getAccountNumber(),
-                transfer.getReference(),
-                request.getAmount(),
-                request.getRecipientName(),
+        recordTransferSuccess(sender.getUser(), transfer, request.getRecipientName(),
                 rail.getRailType() + " transfer");
 
         return new MessageResponse(true, "External transfer submitted. Reference: " + transfer.getReference() + ". Fee charged: " + feeAmount);
@@ -353,6 +347,13 @@ public class TransferService {
                 request.getRecipientName(),
                 rail,
                 hold.getReasons());
+        auditLogService.record(sender.getUser(), "TRANSFER_COMPLIANCE_HOLD", "TRANSFER", transfer.getId(),
+                auditLogService.detailsOf(
+                        "reference", transfer.getReference(),
+                        "amount", request.getAmount(),
+                        "counterparty", request.getRecipientName(),
+                        "rail", rail,
+                        "reasons", String.join("; ", hold.getReasons())));
 
         return new MessageResponse(false, hold.getSummaryMessage(), true, transfer.getReference());
     }
@@ -361,6 +362,38 @@ public class TransferService {
         transfer.setStatus(TransferStatus.FAILED);
         transferRepository.save(transfer);
         logStatus(transfer, TransferStatus.FAILED, message);
+        if (transfer.getUser() != null) {
+            String kind = transfer.getTransferType() != null
+                    ? transfer.getTransferType().name() + " transfer" : "Transfer";
+            notificationService.recordTransferFailed(
+                    transfer.getUser().getAccountNumber(),
+                    transfer.getReference(),
+                    transfer.getAmount(),
+                    transfer.getCounterpartyName(),
+                    message,
+                    kind);
+            auditLogService.record(transfer.getUser(), "TRANSFER_FAILED", "TRANSFER", transfer.getId(),
+                    auditLogService.detailsOf(
+                            "reference", transfer.getReference(),
+                            "amount", transfer.getAmount(),
+                            "reason", message));
+        }
+    }
+
+    private void recordTransferSuccess(User user, Transfer transfer, String counterparty, String transferKind) {
+        notificationService.recordTransfer(
+                user.getAccountNumber(),
+                transfer.getReference(),
+                transfer.getAmount(),
+                counterparty,
+                transferKind);
+        auditLogService.record(user, "TRANSFER_COMPLETED", "TRANSFER", transfer.getId(),
+                auditLogService.detailsOf(
+                        "reference", transfer.getReference(),
+                        "amount", transfer.getAmount(),
+                        "counterparty", counterparty,
+                        "transferKind", transferKind,
+                        "status", "SUCCESS"));
     }
 
     private void logStatus(Transfer transfer, TransferStatus status, String message) {

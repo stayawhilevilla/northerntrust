@@ -194,6 +194,9 @@
     if (typeof global.renderTxHistory === 'function' && global.NTApi.state.connected) {
       await global.renderTxHistory();
     }
+    if (global.NTApi.refreshNotifications) {
+      await global.NTApi.refreshNotifications();
+    }
   }
 
   function setLiveBadge(connected) {
@@ -283,10 +286,11 @@
     };
     if (global.NTApi?.state?.connected) {
       try {
-        const res = await global.NTApi.apiPost('/beneficiaries', body);
-        NTUI.success(`Beneficiary Registered: ${body.displayName} is now active.`);
+        const res = await global.NTApi.createBeneficiary(body);
+        NTUI.success(`Beneficiary registered: ${body.displayName}` + (res.reference ? ' (' + res.reference + ')' : '') + '.');
         global.closeBenModal('modalAddBen');
-        await global.NTApi.reloadView('Beneficiaries');
+        if (global.NTApi.refreshBeneficiaries) await global.NTApi.refreshBeneficiaries();
+        if (global.NTApi.refreshNotifications) await global.NTApi.refreshNotifications();
         if (typeof global.renderTabContent === 'function') global.renderTabContent('Beneficiaries');
         return;
       } catch (e) { NTUI.error(e.message); return; }
@@ -304,7 +308,8 @@
         const res = await global.NTApi.apiPatch('/beneficiaries/' + code + '/limits', { single, daily });
         NTUI.success(`Limits Updated: Velocity thresholds modified successfully.`);
         global.closeBenModal('modalSetLimits');
-        await global.NTApi.reloadView('Beneficiaries');
+        if (global.NTApi.refreshBeneficiaries) await global.NTApi.refreshBeneficiaries();
+        if (global.NTApi.refreshNotifications) await global.NTApi.refreshNotifications();
         return;
       } catch (e) { NTUI.error(e.message); return; }
     }
@@ -317,8 +322,9 @@
     if (global.NTApi?.state?.connected) {
       const newStatus = ben.status === 'BLOCKED' ? 'ACTIVE' : 'BLOCKED';
       try {
-        await global.NTApi.apiPatch('/beneficiaries/' + benId + '/status', { status: newStatus });
-        await global.NTApi.reloadView('Beneficiaries');
+        await global.NTApi.updateBeneficiaryStatus(benId, newStatus);
+        if (global.NTApi.refreshBeneficiaries) await global.NTApi.refreshBeneficiaries();
+        if (global.NTApi.refreshNotifications) await global.NTApi.refreshNotifications();
         const statusMsg = newStatus === 'BLOCKED' ? 'Access Restricted' : 'Access Restored';
         NTUI.success(`${statusMsg}: ${ben.displayName} status updated.`);
         return;
@@ -333,8 +339,9 @@
     if (global.NTApi?.state?.connected) {
       const trusted = ben.trustLevel !== 'Trusted';
       try {
-        await global.NTApi.apiPatch('/beneficiaries/' + benId + '/trust', { trusted });
-        await global.NTApi.reloadView('Beneficiaries');
+        await global.NTApi.updateBeneficiaryTrust(benId, trusted);
+        if (global.NTApi.refreshBeneficiaries) await global.NTApi.refreshBeneficiaries();
+        if (global.NTApi.refreshNotifications) await global.NTApi.refreshNotifications();
         const trustMsg = trusted ? 'Trust Verified' : 'Trust Revoked';
         NTUI.success(`${trustMsg}: Relationship verification state updated.`);
         return;

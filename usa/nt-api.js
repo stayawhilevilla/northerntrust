@@ -332,10 +332,8 @@
       applyGlobalMocks();
       if (typeof global.initPendingApprovalsView === 'function') global.initPendingApprovalsView();
     }
-    if (viewName === 'Beneficiaries' && typeof global.initBeneficiariesView === 'function') {
-      state.beneficiaries = await apiGet('/beneficiaries');
-      applyGlobalMocks();
-      global.initBeneficiariesView();
+    if (viewName === 'Beneficiaries') {
+      await refreshBeneficiaries();
     }
     if (global.NTReporting && global.NTReporting.isReportingView(viewName)) {
       const tr = document.getElementById('analyticsTimeRange')?.value || '7d';
@@ -349,8 +347,27 @@
     }
   }
 
+  async function refreshBeneficiaries() {
+    if (!state.connected) return;
+    state.beneficiaries = await apiGet('/beneficiaries');
+    applyGlobalMocks();
+    if (typeof global.renderBeneficiaries === 'function') {
+      global.renderBeneficiaries();
+    } else if (typeof global.initBeneficiariesView === 'function') {
+      global.initBeneficiariesView();
+    }
+  }
+
+  async function refreshNotifications() {
+    if (!global.NTNotifications) return;
+    await global.NTNotifications.refreshBadge();
+    if (global.currentActiveView === 'Notifications') {
+      await global.NTNotifications.renderCenter();
+    }
+  }
+
   global.NTApi = {
-    state, loadDashboard, hydrateOverview, hydrateHeader, reloadView,
+    state, loadDashboard, hydrateOverview, hydrateHeader, reloadView, refreshBeneficiaries, refreshNotifications,
     apiGet, apiPost, apiPatch, ACCOUNT, API_BASE,
     postInternalTransfer: body => apiPost('/transfers/internal', body),
     postAchTransfer: body => apiPost('/transfers/ach', body),

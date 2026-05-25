@@ -241,21 +241,6 @@
         vertical-align: middle;
       }
 
-      .sidebar-link--soon {
-        opacity: 0.55;
-        cursor: not-allowed;
-      }
-      .sidebar-soon-badge {
-        font-size: 9px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.3px;
-        color: #94a3b8;
-        margin-left: auto;
-        padding: 2px 6px;
-        border: 1px solid #e2e8f0;
-        border-radius: 4px;
-      }
 
       .regulatory-footnote {
         font-size: 10px;
@@ -600,6 +585,28 @@
         background: white;
       }
 
+      /* Sidebar — dark NT green, white navigation text */
+      #sidebarContainer.sidebar-container,
+      .sidebar-container {
+        background: linear-gradient(180deg, #004225 0%, #002d1a 100%) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15) !important;
+      }
+      .sidebar-container .sidebar-search-wrap {
+        border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+      }
+      .sidebar-container .sidebar-search-wrap input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: #ffffff;
+      }
+      .sidebar-container .sidebar-search-wrap input::placeholder {
+        color: rgba(255, 255, 255, 0.45);
+      }
+      .sidebar-container .sidebar-search-wrap svg path {
+        stroke: rgba(255, 255, 255, 0.55) !important;
+      }
+
       /* Hover micro-animations for sidebar links */
       .sidebar-link {
         display: flex;
@@ -610,7 +617,7 @@
         transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         border-radius: var(--radius-sm);
         margin: 4px 12px;
-        color: var(--text-muted);
+        color: rgba(255, 255, 255, 0.92);
         text-decoration: none;
         position: relative;
         overflow: hidden;
@@ -627,7 +634,8 @@
       }
 
       .sidebar-link:hover {
-        color: var(--accent-gold);
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.08);
         transform: translateX(4px);
       }
       
@@ -636,11 +644,14 @@
       }
 
       .sidebar-link.active {
-        background-color: var(--primary);
-        color: white;
+        background: rgba(255, 255, 255, 0.14);
+        color: #ffffff;
         font-weight: 600;
-        box-shadow: var(--shadow-sm);
+        box-shadow: none;
         border-left: 4px solid var(--accent-gold);
+      }
+      .sidebar-link svg {
+        color: inherit;
       }
       .sidebar-link.active::before { display: none; }
 
@@ -761,7 +772,7 @@
       .submenu-item {
         padding: 10px 16px;
         font-size: 13.5px;
-        color: var(--text-muted);
+        color: rgba(255, 255, 255, 0.78);
         cursor: pointer;
         display: block;
         transition: all 0.2s ease;
@@ -770,8 +781,8 @@
         margin: 2px 12px 2px 0;
       }
       .submenu-item:hover {
-        color: var(--primary);
-        background: rgba(255,255,255,0.5);
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.1);
       }
 
       /* Overview Component Layouts */
@@ -916,6 +927,24 @@
               }
               .beneficiary-name {
                 font-size: 15px !important;
+                white-space: normal !important;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                align-items: center !important;
+                gap: 6px !important;
+              }
+              .beneficiary-header-row {
+                flex-wrap: wrap !important;
+                align-items: flex-start !important;
+              }
+              .beneficiary-meta {
+                flex: 1 1 calc(100% - 64px) !important;
+                min-width: 0 !important;
+              }
+              .beneficiary-card .actions-dropdown {
+                top: auto !important;
+                right: 12px !important;
+                bottom: auto !important;
               }
               .beneficiary-details-box {
                 padding: 10px 12px !important;
@@ -941,6 +970,20 @@
               .beneficiary-filter-toolbar {
                 flex-direction: column !important;
                 gap: 12px !important;
+              }
+              .beneficiary-tabs {
+                margin-bottom: 16px !important;
+                padding-bottom: 6px !important;
+              }
+              .ben-form-grid {
+                grid-template-columns: 1fr !important;
+              }
+              #modalAddBen .modal-sheet-scroll .modal-form-actions {
+                flex-direction: column-reverse !important;
+              }
+              #modalAddBen .modal-sheet-scroll .modal-form-actions .dropdown-btn {
+                width: 100% !important;
+                justify-content: center !important;
               }
               
               /* Internal Transfer & Trading Responsiveness */
@@ -1827,6 +1870,46 @@
         background-color: #f1f5f9;
         color: var(--text-main);
       }
+      .beneficiary-tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+        scrollbar-width: thin;
+      }
+      .beneficiary-tabs .statement-tab-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+      .ben-form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .modal-sheet--form {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        max-height: min(92dvh, 720px);
+      }
+      .modal-sheet--form .modal-header {
+        padding: 20px 24px 12px;
+        flex-shrink: 0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      .modal-sheet-scroll {
+        overflow-y: auto;
+        padding: 16px 24px 24px;
+        flex: 1;
+        min-height: 0;
+        -webkit-overflow-scrolling: touch;
+      }
+      .modal-sheet-scroll .modal-form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+      }
       .actions-dropdown {
         position: absolute;
         top: 60px;
@@ -2105,13 +2188,7 @@
       header .user-name { color: var(--text-main) !important; }
       header .brand-name { color: var(--text-main) !important; font-weight: 700; }
       
-      /* Make sidebar container glass */
-      main > div:first-child {
-        background: var(--bg-sidebar) !important;
-        backdrop-filter: var(--glass-blur) !important;
-        border-right: var(--glass-border) !important;
-        box-shadow: var(--shadow-md) !important;
-      }
+      /* Sidebar uses dedicated dark theme (see .sidebar-container above) */
       
       /* Make main container glass */
       main > div:last-child > div {
@@ -3143,17 +3220,15 @@
         id="sidebarContainer"
         class="sidebar-container"
         style="
-          background-color: rgb(255, 255, 255);
           height: 100%;
           width: 18%;
-          box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
           display: flex;
           flex-direction: column;
           padding-top: 16px;
           flex-shrink: 0;
         "
       >
-        <div style="padding: 12px 24px 24px 24px; border-bottom: 1px solid #f1f5f9">
+        <div class="sidebar-search-wrap" style="padding: 12px 24px 24px 24px; border-bottom: 1px solid rgba(255,255,255,0.12)">
           <div style="position: relative; width: 100%">
             <!-- Search Icon -->
             <svg
@@ -3292,45 +3367,37 @@
             <li><div class="submenu-item" data-value="InsightsReports">Insights & Exports</div></li>
           </ul>
 
-          <!-- Financial Management -->
-          <div class="sidebar-link sidebar-link--soon" title="Treasury planning and liquidity tools (coming soon)" aria-disabled="true">
-            <span>
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 64 64"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect x="14" y="18" width="38" height="26" rx="5" stroke="currentColor" stroke-width="3" />
-                <rect x="10" y="26" width="38" height="26" rx="5" stroke="currentColor" stroke-width="3" />
-                <circle cx="29" cy="39" r="7" stroke="currentColor" stroke-width="3" />
-                <path d="M29 34.5V43.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-              </svg>
-            </span>
-            <span style="font-size: 13px; font-weight: 500;">Financial Management</span>
-            <span class="sidebar-soon-badge">Soon</span>
+          <!-- Financial Management (placeholder) -->
+          <div class="sidebar-link sidebar-nav-placeholder" data-nav-label="Financial Management" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span>
+                <svg width="20" height="20" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="14" y="18" width="38" height="26" rx="5" stroke="currentColor" stroke-width="3" />
+                  <rect x="10" y="26" width="38" height="26" rx="5" stroke="currentColor" stroke-width="3" />
+                  <circle cx="29" cy="39" r="7" stroke="currentColor" stroke-width="3" />
+                  <path d="M29 34.5V43.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                </svg>
+              </span>
+              <span style="font-size: 13px; font-weight: 500;">Financial Management</span>
+            </div>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; opacity: 0.85;"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
 
-          <!-- Investment Insights -->
-          <div class="sidebar-link sidebar-link--soon" title="Portfolio research and manager commentary (coming soon)" aria-disabled="true">
-            <span>
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 64 64"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect x="10" y="34" width="6" height="16" fill="currentColor" />
-                <rect x="22" y="24" width="6" height="26" fill="currentColor" />
-                <rect x="34" y="14" width="6" height="36" fill="currentColor" />
-                <polyline points="8,48 20,36 30,42 48,22" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M42 22H52V32" stroke="currentColor" stroke-width="5" fill="none" />
-              </svg>
-            </span>
-            <span style="font-size: 13px; font-weight: 500;">Investment Insights</span>
-            <span class="sidebar-soon-badge">Soon</span>
+          <!-- Investment Insights (placeholder) -->
+          <div class="sidebar-link sidebar-nav-placeholder" data-nav-label="Investment Insights" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span>
+                <svg width="20" height="20" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="34" width="6" height="16" fill="currentColor" />
+                  <rect x="22" y="24" width="6" height="26" fill="currentColor" />
+                  <rect x="34" y="14" width="6" height="36" fill="currentColor" />
+                  <polyline points="8,48 20,36 30,42 48,22" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M42 22H52V32" stroke="currentColor" stroke-width="5" fill="none" />
+                </svg>
+              </span>
+              <span style="font-size: 13px; font-weight: 500;">Investment Insights</span>
+            </div>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; opacity: 0.85;"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
 
           <!-- Forms -->
@@ -3352,45 +3419,37 @@
             <span style="font-size: 13px; font-weight: 500;">Forms & Statements</span>
           </div>
 
-          <!-- Administration -->
-          <div class="sidebar-link sidebar-link--soon" title="User roles, entitlements, and audit settings (coming soon)" aria-disabled="true">
-            <span>
-              <svg
-                width="20"
-                height="20"
-                viewBox="-10 0 64 64"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect x="10" y="14" width="34" height="40" fill="currentColor" />
-                <rect x="10" y="20" width="44" height="6" fill="currentColor" />
-                <rect x="18" y="32" width="16" height="4" fill="currentColor" />
-                <circle cx="43" cy="46" r="7" fill="currentColor" stroke="currentColor" stroke-width="4" />
-                <circle cx="43" cy="46" r="2" fill="currentColor" />
-              </svg>
-            </span>
-            <span style="font-size: 13px; font-weight: 500;">Administration</span>
-            <span class="sidebar-soon-badge">Soon</span>
+          <!-- Administration (placeholder) -->
+          <div class="sidebar-link sidebar-nav-placeholder" data-nav-label="Administration" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span>
+                <svg width="20" height="20" viewBox="-10 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="14" width="34" height="40" fill="currentColor" />
+                  <rect x="10" y="20" width="44" height="6" fill="currentColor" />
+                  <rect x="18" y="32" width="16" height="4" fill="currentColor" />
+                  <circle cx="43" cy="46" r="7" fill="currentColor" stroke="currentColor" stroke-width="4" />
+                  <circle cx="43" cy="46" r="2" fill="currentColor" />
+                </svg>
+              </span>
+              <span style="font-size: 13px; font-weight: 500;">Administration</span>
+            </div>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; opacity: 0.85;"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
 
-          <!-- Aggregation -->
-          <div class="sidebar-link sidebar-link--soon" title="Linked external accounts and custodial feeds (coming soon)" aria-disabled="true">
-            <span>
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 60 60"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M32 12V38" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
-                <path d="M22 22L32 12L42 22" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M20 52L28 44" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
-                <path d="M44 52L36 44" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
-              </svg>
-            </span>
-            <span style="font-size: 13px; font-weight: 500;">Aggregation</span>
-            <span class="sidebar-soon-badge">Soon</span>
+          <!-- Aggregation (placeholder) -->
+          <div class="sidebar-link sidebar-nav-placeholder" data-nav-label="Aggregation" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span>
+                <svg width="20" height="20" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M32 12V38" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+                  <path d="M22 22L32 12L42 22" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M20 52L28 44" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+                  <path d="M44 52L36 44" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+                </svg>
+              </span>
+              <span style="font-size: 13px; font-weight: 500;">Aggregation</span>
+            </div>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; opacity: 0.85;"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
         </div>
       </div>
@@ -6096,7 +6155,7 @@
               </div>
 
               <!-- 3. TABS SELECTORS -->
-              <div class="statement-tab-container" style="margin-bottom: 24px;">
+              <div class="statement-tab-container beneficiary-tabs" style="margin-bottom: 24px;">
                 <button class="statement-tab-btn active" data-type="all">All Beneficiaries</button>
                 <button class="statement-tab-btn" data-type="BANK">Bank Accounts</button>
                 <button class="statement-tab-btn" data-type="INTERNAL">Internal Users</button>
@@ -6116,7 +6175,7 @@
             
             <!-- Modal 1: Add Beneficiary -->
             <div id="modalAddBen" class="modal-overlay">
-              <div class="modal-sheet">
+              <div class="modal-sheet modal-sheet--form">
                 <div class="modal-header">
                   <h4 class="modal-title">New Approved Beneficiary</h4>
                   <button class="modal-close-btn" onclick="closeBenModal('modalAddBen')">
@@ -6124,7 +6183,7 @@
                   </button>
                 </div>
                 
-                <form id="formAddBen" onsubmit="handleFormAddBen(event)">
+                <form id="formAddBen" class="modal-sheet-scroll" onsubmit="handleFormAddBen(event)">
                   <div class="modal-form-group">
                     <label class="modal-label">Display Name</label>
                     <input type="text" id="addBenName" class="modal-input" placeholder="e.g. Acme Holdings Escrow Account" required>
@@ -6151,7 +6210,7 @@
                       <label class="modal-label">Bank Name</label>
                       <input type="text" id="addBankName" class="modal-input" placeholder="e.g. JPMorgan Chase Bank">
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div class="ben-form-grid">
                       <div class="modal-form-group">
                         <label class="modal-label">Account Number</label>
                         <input type="text" id="addBankAccount" class="modal-input" placeholder="e.g. 1029837490">
@@ -6206,7 +6265,7 @@
 
                   <!-- Standard Pre-approved Limits and Risk Level Controls -->
                   <div style="border-top: 1px dashed #e2e8f0; padding-top: 14px; margin-top: 14px;">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div class="ben-form-grid">
                       <div class="modal-form-group">
                         <label class="modal-label">Single Limit ($)</label>
                         <input type="number" id="addBenLimitSingle" class="modal-input" value="100000" min="0" required>
@@ -6227,9 +6286,9 @@
                     </div>
                   </div>
 
-                  <div style="display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end;">
+                  <div class="modal-form-actions">
                     <button type="button" class="dropdown-btn" onclick="closeBenModal('modalAddBen')" style="padding: 8px 16px;">Cancel</button>
-                    <button type="submit" class="dropdown-btn" style="padding: 8px 20px; background-color: #0f172a; color: white; border-color: #0f172a;">Approve & Register</button>
+                    <button type="submit" id="addBenSubmitBtn" class="dropdown-btn" style="padding: 8px 20px; background-color: #0f172a; color: white; border-color: #0f172a;">Approve & Register</button>
                   </div>
                 </form>
               </div>
@@ -6534,11 +6593,24 @@
         });
       });
 
+      // Placeholder nav items — toast only, no navigation
+      document.querySelectorAll('.sidebar-nav-placeholder').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const label = link.getAttribute('data-nav-label') || 'This section';
+          if (window.NTUI) {
+            window.NTUI.toast(label + ' is not available in this release. Please contact your relationship manager for assistance.', 'info');
+          }
+        });
+      });
+
       // Sidebar link items click actions (for non-submenu items)
       const sidebarLinks = document.querySelectorAll('.sidebar-link');
       sidebarLinks.forEach(link => {
-        // Skip toggles as they have their own listeners
+        // Skip toggles and placeholders — they have their own listeners
         if (link.id === 'sidebarAccountsToggle' || link.id === 'sidebarCashToggle' || link.id === 'sidebarReportingToggle') return;
+        if (link.classList.contains('sidebar-nav-placeholder')) return;
 
         link.addEventListener('click', (e) => {
           resetSidebarState();
@@ -6547,8 +6619,6 @@
           const val = link.getAttribute('data-value');
           if (val) {
             renderTabContent(val);
-          } else {
-             if (window.NTUI) window.NTUI.toast(`${link.innerText.trim()} module is restricted or under maintenance.`, 'warn');
           }
         });
       });
@@ -7322,68 +7392,127 @@
         };
 
         // Add New Beneficiary logic
-        window.handleFormAddBen = function(event) {
+        window.handleFormAddBen = async function(event) {
           event.preventDefault();
-          const name = document.getElementById('addBenName').value;
+          const submitBtn = document.getElementById('addBenSubmitBtn');
+          const name = document.getElementById('addBenName').value.trim();
           const type = document.getElementById('addBenType').value;
-          const relationship = document.getElementById('addBenRel').value;
+          const relationship = document.getElementById('addBenRel').value.trim();
           const singleLimit = parseFloat(document.getElementById('addBenLimitSingle').value);
           const dailyLimit = parseFloat(document.getElementById('addBenLimitDaily').value);
           const trust = document.getElementById('addBenTrust').value;
-          
-          let details = {};
-          if (type === 'BANK') {
-            details = {
-              bankName: document.getElementById('addBankName').value || 'Apex Clearing Corp',
-              accountNumber: '•••• •••• •••• ' + (document.getElementById('addBankAccount').value.slice(-4) || '9910'),
-              routingOrSwift: document.getElementById('addBankRouting').value || 'APEXUS33',
-              country: document.getElementById('addBankCountry').value || 'United States'
-            };
-          } else if (type === 'INTERNAL') {
-            details = {
-              userId: document.getElementById('addInternalUserId').value || 'USR-99812',
-              emailOrPhone: document.getElementById('addInternalContact').value || 'skjeffrey@familyoffice.nt'
-            };
-          } else if (type === 'CREDIT') {
-            details = {
-              creditAccountId: document.getElementById('addCreditId').value || 'APEX-CRD-8902',
-              accountType: "APEX_CREDIT_LINE",
-              outstandingBalance: 18500.00,
-              dueDate: "June 15, 2026"
-            };
-          } else if (type === 'INVESTMENT') {
-            details = {
-              portfolioId: document.getElementById('addInvestId').value || 'PORT-TREAS-01',
-              brokerOrManagedAccount: true,
-              riskLevel: document.getElementById('addInvestRisk').value || 'Low Risk',
-              marketValue: 17500.00
-            };
-          }
 
-          const newBen = {
-            beneficiaryId: 'BEN-' + Math.floor(100 + Math.random() * 900),
+          const body = {
             type: type,
             displayName: name,
             relationship: relationship,
-            destinationDetails: details,
-            transferLimits: {
-              single: singleLimit,
-              daily: dailyLimit
-            },
-            status: trust === 'Blocked' ? 'BLOCKED' : 'PENDING_REVIEW',
-            isTrusted: trust === 'Trusted',
-            createdAt: new Date().toISOString().split('T')[0],
-            lastUsedAt: 'Never Used',
-            trustLevel: trust
+            singleLimit: singleLimit,
+            dailyLimit: dailyLimit,
+            trust: trust
           };
 
-          beneficiariesMock.unshift(newBen);
-          closeBenModal('modalAddBen');
-          renderBeneficiaries();
-          if (window.NTUI) {
-            window.NTUI.info('Beneficiary submitted for compliance review. Transfers unlock after approval.');
+          if (type === 'BANK') {
+            const acct = document.getElementById('addBankAccount').value.trim();
+            body.bankName = document.getElementById('addBankName').value.trim() || 'External Bank';
+            body.accountNumber = acct || '0000000000';
+            body.routingOrSwift = document.getElementById('addBankRouting').value.trim() || 'ROUTING';
+            body.country = document.getElementById('addBankCountry').value.trim() || 'United States';
+            body.accountName = name;
+          } else if (type === 'INTERNAL') {
+            body.userId = document.getElementById('addInternalUserId').value.trim() || 'USR-NEW';
+            body.emailOrPhone = document.getElementById('addInternalContact').value.trim() || '';
+          } else if (type === 'CREDIT') {
+            body.creditAccountId = document.getElementById('addCreditId').value.trim() || 'NT-CRD-NEW';
+          } else if (type === 'INVESTMENT') {
+            body.portfolioId = document.getElementById('addInvestId').value.trim() || 'PORT-NEW';
+          }
+
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving…';
+          }
+
+          try {
+            if (window.NTApi && window.NTApi.state.connected) {
+              const res = await window.NTApi.createBeneficiary(body);
+              if (window.NTApi.refreshBeneficiaries) {
+                await window.NTApi.refreshBeneficiaries();
+              }
+              if (window.NTApi.refreshNotifications) {
+                await window.NTApi.refreshNotifications();
+              }
+              closeBenModal('modalAddBen');
+              if (window.NTUI) {
+                const code = res.reference || '';
+                window.NTUI.success('Beneficiary saved' + (code ? ' (' + code + ')' : '') + '.');
+              }
+            } else {
+              const newBen = {
+                beneficiaryId: 'BEN-' + Math.floor(100 + Math.random() * 900),
+                type: type,
+                displayName: name,
+                relationship: relationship,
+                destinationDetails: buildLocalBenDetails(type, body),
+                transferLimits: { single: singleLimit, daily: dailyLimit },
+                status: trust === 'Blocked' ? 'BLOCKED' : 'PENDING_REVIEW',
+                isTrusted: trust === 'Trusted',
+                createdAt: new Date().toISOString().split('T')[0],
+                lastUsedAt: 'Never Used',
+                trustLevel: trust
+              };
+              beneficiariesMock.unshift(newBen);
+              closeBenModal('modalAddBen');
+              renderBeneficiaries();
+              if (window.NTUI) {
+                window.NTUI.info('Saved locally (offline). Connect to the server to persist.');
+              }
+            }
+          } catch (err) {
+            console.error(err);
+            if (window.NTUI) {
+              window.NTUI.error('Could not save beneficiary. Check your connection and try again.');
+            } else {
+              alert('Could not save beneficiary.');
+            }
+          } finally {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Approve & Register';
+            }
           }
         };
+
+        function buildLocalBenDetails(type, body) {
+          if (type === 'BANK') {
+            const last4 = (body.accountNumber || '').slice(-4) || '0000';
+            return {
+              bankName: body.bankName,
+              accountNumber: '•••• •••• •••• ' + last4,
+              routingOrSwift: body.routingOrSwift,
+              country: body.country
+            };
+          }
+          if (type === 'INTERNAL') {
+            return { userId: body.userId, emailOrPhone: body.emailOrPhone };
+          }
+          if (type === 'CREDIT') {
+            return {
+              creditAccountId: body.creditAccountId,
+              accountType: 'NT_CREDIT_LINE',
+              outstandingBalance: 2500,
+              dueDate: 'June 15, 2026'
+            };
+          }
+          if (type === 'INVESTMENT') {
+            return {
+              portfolioId: body.portfolioId,
+              brokerOrManagedAccount: true,
+              riskLevel: 'Low Risk',
+              marketValue: 17500
+            };
+          }
+          return {};
+        }
 
         // Option Dropdowns Openers
         window.toggleOptionDropdown = function(event, benId) {
@@ -7666,6 +7795,7 @@
         });
 
         // Initial render
+        window.renderBeneficiaries = renderBeneficiaries;
         renderBeneficiaries();
       };
 

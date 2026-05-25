@@ -8,5 +8,6 @@ public enum NotificationType {
     SECURITY,
     TRANSFER,
     COMPLIANCE,
+    BENEFICIARY,
     SYSTEM
 }

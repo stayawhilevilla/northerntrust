@@ -13,6 +13,7 @@
     SECURITY: 'Security',
     TRANSFER: 'Transfer',
     COMPLIANCE: 'Compliance',
+    BENEFICIARY: 'Beneficiary',
     SYSTEM: 'System'
   };
 
@@ -25,6 +26,7 @@
       SECURITY: '&#9888;&#65039;',
       TRANSFER: '&#8644;',
       COMPLIANCE: '&#128203;',
+      BENEFICIARY: '&#128101;',
       SYSTEM: '&#8505;&#65039;'
     };
     return icons[type] || '&#128276;';
@@ -51,6 +53,12 @@
     if (metadata.transferKind) rows.push(['Type', metadata.transferKind]);
     if (metadata.status) rows.push(['Status', metadata.status]);
     if (metadata.reason1) rows.push(['Review reason', metadata.reason1]);
+    if (metadata.beneficiaryCode) rows.push(['Beneficiary', metadata.beneficiaryCode]);
+    if (metadata.displayName) rows.push(['Payee', metadata.displayName]);
+    if (metadata.beneficiaryType) rows.push(['Payee type', metadata.beneficiaryType]);
+    if (metadata.updateKind) rows.push(['Update', metadata.updateKind]);
+    if (metadata.detail) rows.push(['Details', metadata.detail]);
+    if (metadata.reason) rows.push(['Reason', metadata.reason]);
     if (!rows.length) return '';
     return '<dl class="notif-meta-grid">' + rows.map(function (r) {
       return '<dt>' + escapeHtml(r[0]) + '</dt><dd>' + escapeHtml(r[1]) + '</dd>';
